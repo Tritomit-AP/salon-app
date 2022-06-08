@@ -1,0 +1,16 @@
+version: '3'
+services:
+  vsnry-client-app:
+    build:
+      context: ./vsnry-client
+      dockerfile: Dockerfile.prod
+    container_name: vsnry-client-app
+    ports:
+      - 3000:80
+  vsnry-admin-app:
+    build:
+      context: ./vsnry-admin
+      dockerfile: Dockerfile.prod
+    container_name: vsnry-admin-app
+    ports:
+      - 5000:80
