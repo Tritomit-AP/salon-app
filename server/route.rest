@@ -24,13 +24,13 @@ Content-Type: application/json
 ###
 
 GET http://localhost:1337/api/description
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwiaWF0IjoxNjU1MjA0NTM4fQ.gbYOoeoiyf49ZSi0Vi3s2W5Evm5tHxBycCxklh-SA3A
+Authorization: Bearer xxx
 
 ###
 
 POST http://localhost:1337/api/description
 Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwiaWF0IjoxNjU1MjA0NTM4fQ.gbYOoeoiyf49ZSi0Vi3s2W5Evm5tHxBycCxklh-SA3A
+Authorization: Bearer xxx
 
 {
     "description": {
