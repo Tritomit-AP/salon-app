@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, useNavigate } from "react-router-dom"
 
 export default function Login() {
     const [credentials, setCredentials] = useState({
@@ -7,6 +7,8 @@ export default function Login() {
         email: "",
         password: ""
     })
+
+    const navigate = useNavigate()
 
     const marginBottom = {
         marginBottom: "10px"
@@ -23,7 +25,7 @@ export default function Login() {
 
     async function handleRegister(e) {
         e.preventDefault()
-        const response = await fetch('http://localhost:1337/api/register', {
+        const response = await fetch('http://localhost:1337/users/register', {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -34,9 +36,12 @@ export default function Login() {
         })
 
         const data = await response.json()
-        console.log(data)
+        
+        if(data.status === 'ok') {
+            navigate('/login')
+        }
     }
-
+    
     return (
         <form
             style={{

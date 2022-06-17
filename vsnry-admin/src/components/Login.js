@@ -1,11 +1,17 @@
 import React, { useState } from 'react'
-import { Link } from "react-router-dom"
+import { Link, Navigate, useNavigate } from "react-router-dom"
+import { useAuth } from '../contexts/AuthContext'
 
 export default function Login() {
     const [credentials, setCredentials] = useState({
         email: "",
         password: ""
     })
+    const [loading, setLoading] = useState(false)
+    const [error, setError] = useState("")
+
+    const { login, currentUser } = useAuth()
+    const navigate = useNavigate()
 
     const marginBottom = {
         marginBottom: "10px"
@@ -20,12 +26,25 @@ export default function Login() {
         })
     }
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault()
-        console.log("login")
+        //do some error check maybe formik or something
+        try {
+            setError('')
+            setLoading(true)
+            await login(credentials)
+            setCredentials({ email: "", password: ""})
+            navigate('/')
+        } catch (error) {
+            console.log('this is error from catch in Login.js async fn', error)
+            setError("Failed to login")
+        }
+        setLoading(false)
     }
 
-    return (
+    return currentUser.success ? (
+        <Navigate to='/' />
+    ) : (
         <form
             style={{
                 display: "flex", 
@@ -54,7 +73,8 @@ export default function Login() {
                 name="password"
                 placeholder='password'
             />
-            <input style={marginBottom} type="submit" value="Login" />
+            <input style={marginBottom} type="submit" value="Login" disabled={loading} />
+			{ error && <span style={{ color: "red" }}>{error}</span> }
             <Link style={{ textAlign: "center" }} to="/register">No account? Register</Link>
         </form>
     )

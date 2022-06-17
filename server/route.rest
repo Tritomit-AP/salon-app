@@ -1,0 +1,40 @@
+POST http://localhost:1337/users/register
+Content-Type: application/json
+
+{
+    "credentials": {
+        "name": "Lucian",
+        "email": "lucian@web.de",
+        "password": "pass"
+    }
+}
+
+###
+
+POST http://localhost:1337/users/login
+Content-Type: application/json
+
+{
+    "credentials": {
+        "email": "lucian@web.de",
+        "password": "pass"
+    }
+}
+
+###
+
+GET http://localhost:1337/api/description
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwiaWF0IjoxNjU1MjA0NTM4fQ.gbYOoeoiyf49ZSi0Vi3s2W5Evm5tHxBycCxklh-SA3A
+
+###
+
+POST http://localhost:1337/api/description
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwiaWF0IjoxNjU1MjA0NTM4fQ.gbYOoeoiyf49ZSi0Vi3s2W5Evm5tHxBycCxklh-SA3A
+
+{
+    "description": {
+        "title": "Beauty & hair",
+        "about": "Comes & first of all"
+    }
+}
