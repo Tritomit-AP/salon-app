@@ -18,6 +18,7 @@ db.once('open', () => console.log('Connected to Database'))
 
 //routes
 app.use('/users', require('./routes/users'))
+app.use('/auth-confirm', require('./routes/authConfirm'))
 app.use('/api/description', require('./routes/description'))
 
 //error handling

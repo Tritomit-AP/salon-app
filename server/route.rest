@@ -16,7 +16,7 @@ Content-Type: application/json
 
 {
     "credentials": {
-        "email": "lucian@web.de",
+        "email": "a@b.com",
         "password": "pass"
     }
 }
@@ -37,4 +37,15 @@ Authorization: Bearer xxx
         "title": "Beauty & hair",
         "about": "Comes & first of all"
     }
+}
+
+###
+POST http://localhost:1337/auth-confirm
+Content-Type: application/json
+
+{
+    "name": "name",
+    "email": "a@b.com",
+    "userId": "62a3206bf93e783c9b22536e",
+    "authCode": "C888AA"
 }

@@ -5,6 +5,9 @@ import Dashboard from "./components/Dashboard"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom"
 import { AuthProvider } from "./contexts/AuthContext" 
 import PrivateOutlet from "./components/PrivateOutlet";
+import AuthConfirm from "./components/AuthConfirm";
+import LoginOutlet from "./components/LoginOutlet";
+import AuthConfirmOutlet from "./components/AuthConfirmOutlet";
 
 function App() {
   return (
@@ -16,8 +19,19 @@ function App() {
                 <Route exact path="/" element={ <Dashboard /> } />
               </Route>
             </Route>
-            <Route path="/login" element={<Login />} />
-            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={
+                <LoginOutlet>
+                  <Login />
+                </LoginOutlet>
+              }
+            />
+            <Route path="/confirm-login" element={
+                <AuthConfirmOutlet>
+                  <AuthConfirm />
+                </AuthConfirmOutlet>
+              }
+            />
+            <Route path="*" element={<p>There's nothing here: 404!</p>} />
         </Routes>
       </AuthProvider>
     </Router>

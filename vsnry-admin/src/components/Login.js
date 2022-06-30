@@ -1,50 +1,41 @@
-import React, { useState } from 'react'
-import { Link, Navigate, useNavigate } from "react-router-dom"
+import React, { useEffect, useState } from 'react'
+import { useNavigate, Navigate } from "react-router-dom"
 import { useAuth } from '../contexts/AuthContext'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
 
 export default function Login() {
-    const [credentials, setCredentials] = useState({
-        email: "",
-        password: ""
-    })
     const [loading, setLoading] = useState(false)
-    const [error, setError] = useState("")
-
-    const { login, currentUser } = useAuth()
+    const { login, currentUser, error } = useAuth()
+    const { success, user: { providedAuth } } = currentUser
     const navigate = useNavigate()
 
     const marginBottom = {
         marginBottom: "10px"
     }
 
-    const handleChange = (e) => {
-        e.preventDefault()
-        const { name, value } = e.target
-        setCredentials({
-            ...credentials, 
-            [name]: value
-        })
-    }
-
-    const handleLogin = async (e) => {
-        e.preventDefault()
-        //do some error check maybe formik or something
-        try {
-            setError('')
+    const formik = useFormik({
+        initialValues: {
+            email: "",
+            password: ""
+        },
+        validationSchema: yup.object({
+            email: yup.string().email("Invalid email address").required("The email is required"),
+            password: yup.string().required("The password is required")
+        }),
+        onSubmit: async (credentials, {resetForm}) => {
             setLoading(true)
             await login(credentials)
-            setCredentials({ email: "", password: ""})
-            navigate('/')
-        } catch (error) {
-            console.log('this is error from catch in Login.js async fn', error)
-            setError("Failed to login")
-        }
-        setLoading(false)
-    }
+            resetForm({})
+            setLoading(false)
+        } 
+    })
 
-    return currentUser.success ? (
-        <Navigate to='/' />
-    ) : (
+    useEffect(() => {
+        if (success && !providedAuth) navigate("/confirm-login")
+    }, [success, providedAuth])
+
+    return (
         <form
             style={{
                 display: "flex", 
@@ -52,30 +43,37 @@ export default function Login() {
                 width: "30%",
                 margin: "0 auto"
             }}
-            onSubmit={handleLogin}
+            onSubmit={formik.handleSubmit}
         >
             <h1 style={{ textAlign: "center" }}>Login</h1>
             <input
                 style={marginBottom}
-                onChange={handleChange}
-                type="email"
-                value={credentials.email}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
+                type="text"
+                value={formik.values.email}
                 autoComplete="off"
                 name="email"
-                placeholder='email'
+                placeholder='Email'
             />
+            {formik.errors.email && formik.touched.email && (
+                <span style={{ color: "red" }}>{formik.errors.email}</span>
+            )}
             <input
                 style={marginBottom}
-                onChange={handleChange}
+                onChange={formik.handleChange}
+                onBlur={formik.handleBlur}
                 type="password"
-                value={credentials.password}
+                value={formik.values.password}
                 autoComplete="off"
                 name="password"
-                placeholder='password'
+                placeholder='Password'
             />
+            {formik.errors.password && formik.touched.password && (
+                <span style={{ color: "red" }}>{formik.errors.password}</span>
+            )}
             <input style={marginBottom} type="submit" value="Login" disabled={loading} />
-			{ error && <span style={{ color: "red" }}>{error}</span> }
-            <Link style={{ textAlign: "center" }} to="/register">No account? Register</Link>
+            {error && <span style={{ color: "red" }}>{error}</span>}
         </form>
     )
 }

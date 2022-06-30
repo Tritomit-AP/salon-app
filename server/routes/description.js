@@ -20,7 +20,6 @@ router.post('/', async (req, res) => {
                 about: req.body.description.about
             })
         } else {
-            console.log(req.body)
             const { title, about } = req.body
             let filteredDescription = {}
             if (title) filteredDescription["title"] = title
