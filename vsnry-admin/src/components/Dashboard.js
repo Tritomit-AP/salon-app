@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react"
 import jwtDecode from 'jwt-decode'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, Link } from "react-router-dom"
 import { useAuth } from "../contexts/AuthContext"
 import { useFormik } from "formik"
 
@@ -39,6 +39,7 @@ export default function Dashboard() {
 
     return (
 		<div>
+			<Link to='/settings'>My settings</Link>
 			<form
 				style={{
 					display: "flex", 
@@ -51,7 +52,7 @@ export default function Dashboard() {
 				<h1 style={{ textAlign: "center" }}>Website description</h1>
 				<input onChange={formik.handleChange} type="text" value={formik.values.title} name='title' placeholder="title" />
 				<input onChange={formik.handleChange} type="text" value={formik.values.about} name='about' placeholder="about" />
-				<input type="submit" value="Update" disabled={loading} />
+            	<button type='submit' disabled={loading}>Update</button>
 				<span>
 					{title || "Beauty" }
 				</span>

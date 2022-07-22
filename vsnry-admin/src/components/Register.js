@@ -80,7 +80,7 @@ export default function Login() {
                 name="password"
                 placeholder='password'
             />
-            <input style={marginBottom} type="submit" value="Register" />
+            <button type="submit" style={marginBottom}>Register</button>
             <Link style={{ textAlign: "center" }} to="/login">Already registered? Login</Link>
         </form>
     )

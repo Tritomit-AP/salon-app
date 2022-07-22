@@ -9,7 +9,6 @@ const config = require('../config')
 router.post('/', async (req, res) => {
     try {
         const { name, email, userId, authCode } = req.body
-        // console.log(req.body)
         if (!userId || !authCode) {
             return res.status(400).json({ success: false, error: "The authentication code and user details are required." })
         } else {

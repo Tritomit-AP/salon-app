@@ -14,7 +14,7 @@ export function AuthProvider({ children }) {
     })
     const [error, setError] = useState("")
     const [websiteDescription, setWebsiteDescription] = useState({})
-    
+
     async function login(credentials) {
         setError("")
         try {
@@ -50,8 +50,8 @@ export function AuthProvider({ children }) {
             })
         
             const data = await response.json()
-            const { user, user: { providedAuth }, token, success } = data
-            if(success && providedAuth) {
+            const { user, token, success } = data
+            if(success) {
                 localStorage.setItem("token", token)
                 localStorage.setItem("user", JSON.stringify(user))
                 localStorage.setItem("success", success)
@@ -124,6 +124,7 @@ export function AuthProvider({ children }) {
 
     const value = {
         currentUser,
+        setCurrentUser,
         error,
         login,
         authConfirm,

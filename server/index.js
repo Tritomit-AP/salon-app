@@ -20,6 +20,7 @@ db.once('open', () => console.log('Connected to Database'))
 app.use('/users', require('./routes/users'))
 app.use('/auth-confirm', require('./routes/authConfirm'))
 app.use('/api/description', require('./routes/description'))
+app.use('/api/update-credentials', require('./routes/updateCredentials'))
 
 //error handling
 app.use((err, req, res, next) => {

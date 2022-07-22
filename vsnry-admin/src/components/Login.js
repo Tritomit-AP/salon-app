@@ -34,7 +34,6 @@ export default function Login() {
     useEffect(() => {
         if (success && !providedAuth) navigate("/confirm-login")
     }, [success, providedAuth])
-
     return (
         <form
             style={{
@@ -72,7 +71,7 @@ export default function Login() {
             {formik.errors.password && formik.touched.password && (
                 <span style={{ color: "red" }}>{formik.errors.password}</span>
             )}
-            <input style={marginBottom} type="submit" value="Login" disabled={loading} />
+            <button type='submit' disabled={loading} style={marginBottom}>Login</button>
             {error && <span style={{ color: "red" }}>{error}</span>}
         </form>
     )

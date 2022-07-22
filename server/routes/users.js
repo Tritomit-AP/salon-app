@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const User = require('../models/user.model')
 const AuthConfirm = require('../models/authConfirm.model')
-const jwt = require('jsonwebtoken')
 const bcrypt = require('bcryptjs')
 const config = require('../config')
 const crypto = require('crypto')
@@ -38,13 +37,13 @@ router.post('/login', async (req, res) => {
         { new: true }
     )
 
-    if(!user) {
+    if (!user) {
         return res.status(401).json({ success: false, error: 'Email or password are incorrect' })
     }
 
     const isPasswordValid = await bcrypt.compare(req.body.credentials.password, user.password)
     
-    if(isPasswordValid) {
+    if (isPasswordValid) {
         try { 
             await sendAuthCodeEmail(user, res)
         } catch (error) {

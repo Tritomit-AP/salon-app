@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from 'react'
-import { useNavigate, Navigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom"
 import { useAuth } from '../contexts/AuthContext'
 import { useFormik } from 'formik'
 import * as yup from 'yup'
 
 export default function AuthConfirm() {
     const [loading, setLoading] = useState(false)
-    const { authConfirm, currentUser, error } = useAuth()
+    const { authConfirm, currentUser, setCurrentUser, error } = useAuth()
     const { success, user, user: { providedAuth } } = currentUser
     const navigate = useNavigate()
 
@@ -25,7 +25,15 @@ export default function AuthConfirm() {
             resetForm({})
             setLoading(false)
         }
-    }) 
+    })
+
+    const handleGoToLogin = () => {
+        setCurrentUser({
+            success: false, 
+            user: { providedAuth: false }   
+        })
+        navigate('/login')
+    }
     
     useEffect(() => {
         if (success && providedAuth) navigate("/")
@@ -60,6 +68,7 @@ export default function AuthConfirm() {
             )}
             <input style={marginBottom} type="submit" value="Confirm" disabled={loading} />
 			{error && <span style={{ color: "red" }}>{error}</span>}
+            <span onClick={handleGoToLogin} style={{ textAlign: "center", cursor: "pointer", textDecoration: "underline" }}>Login again</span>
         </form>
     )
 }

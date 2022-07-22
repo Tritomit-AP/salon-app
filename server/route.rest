@@ -16,8 +16,8 @@ Content-Type: application/json
 
 {
     "credentials": {
-        "email": "a@b.com",
-        "password": "pass"
+        "email": "adluc@web.de",
+        "password": "password"
     }
 }
 
@@ -44,8 +44,20 @@ POST http://localhost:1337/auth-confirm
 Content-Type: application/json
 
 {
-    "name": "name",
-    "email": "a@b.com",
-    "userId": "62a3206bf93e783c9b22536e",
-    "authCode": "C888AA"
+    "name": "adrian pop",
+    "email": "adluc@web.de",
+    "userId": "62a2613db6b4973d1461e78b",
+    "authCode": "A3D649"
+}
+
+###
+
+PATCH  http://localhost:1337/api/update-credentials/62a2613db6b4973d1461e78b
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRyaWFuIHBvcCIsImVtYWlsIjoiYWRsdWNAd2ViLmRlIiwiaWF0IjoxNjU3MTA3NTkyfQ.OFU8pkPk3KPdZ0R0Kbo29-GskKulsE7aQu5WWcs4sdc
+
+{
+    "newEmail": "",
+    "currentPassword": "Password123#",
+    "newPassword": "Password123#"
 }
