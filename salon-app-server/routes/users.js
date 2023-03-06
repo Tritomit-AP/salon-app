@@ -6,6 +6,7 @@ const bcrypt = require('bcryptjs')
 const config = require('../config')
 const crypto = require('crypto')
 const nodemailer = require('nodemailer')
+const { body, validationResult } = require('express-validator')
 
 const transport = nodemailer.createTransport({
     host: "smtp.mailtrap.io",
@@ -30,41 +31,56 @@ router.post('/register', async (req, res) => {
     }
 }) 
 
-router.post('/login', async (req, res) => {
-    const user = await User.findOneAndUpdate(
-        { email: req.body.credentials.email },
-        { $set: { providedAuth: false }},
-        { new: true }
-    )
-
-    if (!user) {
-        return res.status(401).json({ success: false, error: 'Email or password are incorrect' })
-    }
-
-    const isPasswordValid = await bcrypt.compare(req.body.credentials.password, user.password)
-    
-    if (isPasswordValid) {
-        try { 
-            await sendAuthCodeEmail(user, res)
-        } catch (error) {
-            return res.status(400).json({ success: false, error: error.message })
+router.post(
+    '/login', 
+    body('credentials.email').not().isEmpty().isEmail(),
+    body('credentials.password').not().isEmpty(),
+    async (req, res) => {
+        const errors = validationResult(req)
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ success: false, error: "Email or password are incorrect" })
         }
-        //intial response
-        return res.json({ success: true, user: user.withoutPassword() })
-    } else {
-        return res.status(401).json({ success: false, error: "Email or password are incorrect" })
-    }
-})
 
-const sendAuthCodeEmail = async ({ _id, email }, res) => {
+        try {
+            const user = await User.findOneAndUpdate(
+                { email: req.body.credentials.email },
+                { $set: { providedAuth: false }},
+                { new: true }
+            )
+    
+            if (!user) {
+                return res.status(401).json({ success: false, error: "Email or password are incorrect" })
+            }
+    
+            const isPasswordValid = await bcrypt.compare(req.body.credentials.password, user.password)
+
+            if (isPasswordValid) {
+                try { 
+                    await sendAuthCodeEmail(user, res)
+                } catch (error) {
+                    return res.status(400).json({ success: false, error: error.message })
+                }
+                return res.json({ success: true, user: user.withoutPassword() })
+            } else {
+                return res.status(401).json({ success: false, error: "Email or password are incorrect" })
+            }
+            
+        } catch (error) {
+            res.status(400).json({ success: false, error: error.message })
+        }
+    }
+)
+
+const sendAuthCodeEmail = async ({ _id, email, name }, res) => {
     try {
         const authCode = crypto.randomBytes(3).toString("hex").toUpperCase()
         const mailOptions = {
-            from: config.authEmail,
+            from: "support@client.com",
             to: email,
             subject: "Your authentication code",
             html: `
-                <p>This is your authentication code requested from VSNRY Admin platform:</p>
+                <h1>Hi ${name}</h1>
+                <p>This is your authentication code requested from Client:</p>
                 <h1>${authCode}</h1>
                 <p>Your unique code will be valid for 15 minutes. If don't use it in this timeframe, you will have to login again and request a new one.</p>
             `

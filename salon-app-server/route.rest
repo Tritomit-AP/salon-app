@@ -1,11 +1,14 @@
-POST http://localhost:1337/users/register
+# ---------------------------------------------------------------
+### LOGIN 
+# ---------------------------------------------------------------
+
+POST http://localhost:1337/users/login
 Content-Type: application/json
 
 {
     "credentials": {
-        "name": "Lucian",
         "email": "lucian@web.de",
-        "password": "pass"
+        "password": "Password#123"
     }
 }
 
@@ -16,12 +19,116 @@ Content-Type: application/json
 
 {
     "credentials": {
-        "email": "adluc@web.de",
-        "password": "password"
+        "email": "adrian@web.de",
+        "password": "Password#123"
     }
 }
 
+# ---------------------------------------------------------------
+### AUTH CONFIRM 
+# ---------------------------------------------------------------
+
+POST http://localhost:1337/auth-confirm
+Content-Type: application/json
+
+{
+    "name": "Lucian",
+    "email": "lucian@web.de",
+    "userId": "63f4c2720e8a298d3c21be6c",
+    "authCode": "4992D5"
+}
+
 ###
+
+POST http://localhost:1337/auth-confirm
+Content-Type: application/json
+
+{
+    "name": "Adrian",
+    "email": "adrian@web.de",
+    "userId": "640606b7719c50752e37dc96",
+    "authCode": "6BAE75"
+}
+
+# ---------------------------------------------------------------
+### FORGOT PASSWORD 
+# ---------------------------------------------------------------
+
+POST http://localhost:1337/forgot-password/request
+Content-Type: application/json
+
+{
+    "email": "lucian@web.de"
+}
+
+###
+
+PATCH http://localhost:1337/forgot-password/reset
+Content-Type: application/json
+
+{
+    "password": "Password#123",
+    "userId": "63f4c2720e8a298d3c21be6c",
+    "token": "43444a34f43c287afb71ca12d733c33f56e5d07115c1bfd7dfeb1eb1ff140932"
+}
+
+# ---------------------------------------------------------------
+### UPDATE CREDENTIALS
+# ---------------------------------------------------------------
+
+### --- NAME --- ###
+
+PATCH  http://localhost:1337/api/update-credentials/name?userId=63f4c2720e8a298d3c21be6c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjc4MTIxMDQxfQ.Wu48R418rz2ocPP0L83sA-x3m7WKQqlI8AsfRA1Fzdg
+
+{
+    "name": "Lucian"
+}
+
+### --- EMAIL --- ###
+
+PATCH  http://localhost:1337/api/update-credentials/email?userId=63f4c2720e8a298d3c21be6c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjc4MTIxMDQxfQ.Wu48R418rz2ocPP0L83sA-x3m7WKQqlI8AsfRA1Fzdg
+
+{
+    "newEmail": "luciano@web.de"
+}
+
+### --- PASSWORD --- ###
+
+PATCH  http://localhost:1337/api/update-credentials/password/63f4c2720e8a298d3c21be6c
+Content-Type: application/json
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwiaWF0IjoxNjc4MTE1MTc3fQ.mLJUtaZBB7-s0wE9cr2lctYUZu59Nj-v_QF5BZLhb2w
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwiaWF0IjoxNjc4MTE2NzI5fQ.uTfdmGBG4z9tn7QxEe5UaoGt0ZqMVPTeWdIT432DOBw
+
+{
+    "currentPassword": "Password123#",
+    "newPassword": "Password123#"
+}
+
+# ---------------------------------------------------------------
+### UPDATE EMAIL
+# ---------------------------------------------------------------
+
+# ---------------------------------------------------------------
+### ADD NEW ADMIN 
+# ---------------------------------------------------------------
+
+POST http://localhost:1337/api/add-admin
+Content-Type: application/json
+
+{
+    "credentials": {
+        "name": "Lucian",
+        "email": "lucian@web.de"
+    }
+}
+
+# ---------------------------------------------------------------
+### FRONT PAGE DESCRIPTION ** GET // UPDATE
+# ---------------------------------------------------------------
 
 GET http://localhost:1337/api/description
 Authorization: Bearer xxx
@@ -39,25 +146,6 @@ Authorization: Bearer xxx
     }
 }
 
-###
-POST http://localhost:1337/auth-confirm
-Content-Type: application/json
-
-{
-    "name": "adrian pop",
-    "email": "adluc@web.de",
-    "userId": "62a2613db6b4973d1461e78b",
-    "authCode": "A3D649"
-}
-
-###
-
-PATCH  http://localhost:1337/api/update-credentials/62a2613db6b4973d1461e78b
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiYWRyaWFuIHBvcCIsImVtYWlsIjoiYWRsdWNAd2ViLmRlIiwiaWF0IjoxNjU3MTA3NTkyfQ.OFU8pkPk3KPdZ0R0Kbo29-GskKulsE7aQu5WWcs4sdc
-
-{
-    "newEmail": "",
-    "currentPassword": "Password123#",
-    "newPassword": "Password123#"
-}
+# ---------------------------------------------------------------
+### PERSONA ** GET // POST // UPDATE // DELETE
+# ---------------------------------------------------------------

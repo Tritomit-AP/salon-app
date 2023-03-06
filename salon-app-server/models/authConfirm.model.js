@@ -10,6 +10,6 @@ const AuthConfirm = new mongoose.Schema(
     { collection: 'auth-records' }
 )
 
-const model = mongoose.model('AuthData', AuthConfirm)
+const model = mongoose.model('AuthConfirm', AuthConfirm)
 
 module.exports = model

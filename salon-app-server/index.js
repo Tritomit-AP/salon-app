@@ -19,6 +19,7 @@ db.once('open', () => console.log('Connected to Database'))
 //routes
 app.use('/users', require('./routes/users'))
 app.use('/auth-confirm', require('./routes/authConfirm'))
+app.use('/forgot-password', require('./routes/forgotPassword'))
 app.use('/api/description', require('./routes/description'))
 app.use('/api/update-credentials', require('./routes/updateCredentials'))
 

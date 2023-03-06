@@ -5,13 +5,21 @@ const AuthConfirm = require('../models/authConfirm.model')
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const config = require('../config')
+const { body, validationResult } = require('express-validator')
 
-router.post('/', async (req, res) => {
-    try {
+router.post(
+    '/',
+    body(['name', 'email', 'userId', 'authCode']).not().isEmpty().withMessage("Some vital information is missing..."),
+    body('email').isEmail().withMessage("Email is not valid"),
+    body('authCode').isLength({ min: 6, max: 6 }).withMessage("Authentication code is not valid"),
+    async (req, res) => {
+        const errors = validationResult(req);
+        if (!errors.isEmpty()) {
+          return res.status(400).json({ errors: errors.array().map(error => error.msg) });
+        }
+        
         const { name, email, userId, authCode } = req.body
-        if (!userId || !authCode) {
-            return res.status(400).json({ success: false, error: "The authentication code and user details are required." })
-        } else {
+        try {
             const authCodeRecord = await AuthConfirm.findOne({ userId })
             if (!authCodeRecord) {
                 return res.status(404).json({ success: false, error: "This record does not exist. Please try again." })
@@ -27,7 +35,8 @@ router.post('/', async (req, res) => {
                     } else { 
                         const token = jwt.sign({
                             name: name,
-                            email: email
+                            email: email,
+                            userId: userId
                         }, config.jwtSecret)
                         const user = await User.findOneAndUpdate(
                             { _id: userId },
@@ -40,10 +49,10 @@ router.post('/', async (req, res) => {
                     }
                 }
             }
+        } catch (error) {
+            res.status(400).json({ success: false, error: error.message })
         }
-    } catch (error) {
-        res.status(400).json({ success: false, error: error.message })
     }
-})
+)
 
 module.exports = router
