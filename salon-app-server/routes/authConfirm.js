@@ -10,12 +10,12 @@ const { body, validationResult } = require('express-validator')
 router.post(
     '/',
     body(['name', 'email', 'userId', 'authCode']).not().isEmpty().withMessage("Some vital information is missing..."),
-    body('email').isEmail().withMessage("Email is not valid"),
-    body('authCode').isLength({ min: 6, max: 6 }).withMessage("Authentication code is not valid"),
+    body('email').isEmail().withMessage("Email is not valid."),
+    body('authCode').isLength({ min: 6, max: 6 }).withMessage("Authentication code is not valid."),
     async (req, res) => {
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
-          return res.status(400).json({ errors: errors.array().map(error => error.msg) });
+          return res.status(400).json({ errors: errors.array().map(error => error.msg) })
         }
         
         const { name, email, userId, authCode } = req.body
@@ -32,20 +32,27 @@ router.post(
                     const validAuthCode = await bcrypt.compare(authCode, hashedCode)
                     if (!validAuthCode) {
                         return res.status(422).json({ success: false, error: "Your authentication code is wrong. Please check your inbox or login again and request a new code." })
-                    } else { 
-                        const token = jwt.sign({
-                            name: name,
-                            email: email,
-                            userId: userId
-                        }, config.jwtSecret)
-                        const user = await User.findOneAndUpdate(
-                            { _id: userId },
-                            { $set: { providedAuth: true }},
-                            { new: true }
-                        )
-                        await AuthConfirm.deleteMany({ userId })
-                        //final response including signed token
-                        return res.json({ success: true, token: token, user: user.withoutPassword() })
+                    } else {
+                        const existingUser = await User.findById(userId)
+                        if (existingUser.name !== name) {
+                            return res.status(422).json({ success: false, error: "Some information is wrong. Try again." })
+                        } else if (existingUser.email !== email) {
+                            return res.status(422).json({ success: false, error: "Some information is wrong. Try again." })
+                        } else {
+                            const token = jwt.sign({
+                                name: name,
+                                email: email,
+                                userId: userId
+                            }, config.jwtSecret)
+                            const user = await User.findOneAndUpdate(
+                                { _id: userId },
+                                { $set: { providedAuth: true }},
+                                { new: true }
+                            )
+                            await AuthConfirm.deleteMany({ userId })
+                            //final response including signed token
+                            return res.json({ success: true, token: token, user: user.withoutPassword() })
+                        }
                     }
                 }
             }

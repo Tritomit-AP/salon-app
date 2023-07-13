@@ -22,6 +22,10 @@ app.use('/auth-confirm', require('./routes/authConfirm'))
 app.use('/forgot-password', require('./routes/forgotPassword'))
 app.use('/api/description', require('./routes/description'))
 app.use('/api/update-credentials', require('./routes/updateCredentials'))
+app.use('/update-credentials/email-update-reset', require('./routes/emailUpdateReset'))
+app.use('/api/add-admin', require('./routes/addAdmin'))
+app.use('/add-admin/create', require('./routes/addAdminCreate'))
+app.use('/api/admins-manager', require('./routes/adminsManager'))
 
 //error handling
 app.use((err, req, res, next) => {

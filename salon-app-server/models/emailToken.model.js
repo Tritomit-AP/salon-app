@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-const ResetToken = new mongoose.Schema(
+const EmailToken = new mongoose.Schema(
     {
         userId: {
             type: mongoose.Schema.Types.ObjectId,
@@ -11,15 +11,20 @@ const ResetToken = new mongoose.Schema(
             type: String,
             required: true,
         },
+        newEmail: {
+            type: String,
+            required: true,
+            unique: true
+        },
         createdAt: {
             type: Date,
             default: Date.now,
-            index: { expires: 3600 }
-        },
+            index: { expires: 86400 }
+        }
     },
-    { collection: 'reset-tokens' }
+    { collection: 'email-tokens' }
 )
 
-const model = mongoose.model('ResetToken', ResetToken)
+const model = mongoose.model('EmailToken', EmailToken)
 
 module.exports = model

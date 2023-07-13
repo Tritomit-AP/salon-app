@@ -121,7 +121,7 @@ router.patch(
 
             await resetToken.deleteOne()
 
-            res.status(201).json({ success: true, message: "Your password has been reset" })
+            res.status(200).json({ success: true, message: "Your password has been reset" })
         } catch (error) {
             res.status(400).json({ success: false, error: error.message })
         }

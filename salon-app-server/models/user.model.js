@@ -15,10 +15,15 @@ const User = new mongoose.Schema(
             type: String,
             required: true
         },
+        invitedBy: {
+            type: String,
+            default: null
+        },
         providedAuth: {
             type: Boolean,
             default: false
         }
+
     },
     { collection: 'user-data' }
 )
