@@ -1,3 +1,12 @@
+# lucian@web.de
+### 63f4c2720e8a298d3c21be6c
+### Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
+
+# adrian@web.de
+### 640606b7719c50752e37dc96
+### Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRyaWFuIiwiZW1haWwiOiJhZHJpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjQwNjA2Yjc3MTljNTA3NTJlMzdkYzk2IiwiaWF0IjoxNjg5MzI3NTY5fQ.FWq_z2su4SA6ooIcdwffjsucgivudHLU_pLRnxuK_RQ
+
+
 # ---------------------------------------------------------------
 ### LOGIN 
 # ---------------------------------------------------------------
@@ -59,7 +68,7 @@ Content-Type: application/json
     "name": "Adrian",
     "email": "adrian@web.de",
     "userId": "640606b7719c50752e37dc96",
-    "authCode": "EF2DBF"
+    "authCode": "F05429"
 }
 
 ###
@@ -117,7 +126,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjc4MTIxMDQxfQ.Wu48R418rz2ocPP0L83sA-x3m7WKQqlI8AsfRA1Fzdg
 
 {
-    "newEmail": "lucian@web.de"
+    "newEmail": "luciano@web.de"
 }
 
 ###
@@ -127,7 +136,7 @@ Content-Type: application/json
 
 {
     "userId": "63f4c2720e8a298d3c21be6c",
-    "token": "311e34e438270ec7e7618d7fddff66ac45ada5e3716018d17afc5111d28132bb"
+    "token": "ef75ea5d345bf64ddffbc7b9abbd416f4c10db1373584279a56dde4032e59f09"
 }
 
 ### --- PASSWORD --- ###
@@ -160,7 +169,7 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
 
 {
-    "authCode": "9295B4",
+    "authCode": "997D62",
     "newAdminEmail": "popadrian@web.de"
 }
 
@@ -176,6 +185,44 @@ Content-Type: application/json
     "token": "2146d4a9edeb6f13f94196e0d46390ac1fcbea2e91b3d17fbe1472b2fb56d433"
 }
 
+
+# ---------------------------------------------------------------
+### ADD NEW ADMIN 
+# ---------------------------------------------------------------
+
+POST http://localhost:1337/api/add-admin/request?userId=640606b7719c50752e37dc96
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRyaWFuIiwiZW1haWwiOiJhZHJpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjQwNjA2Yjc3MTljNTA3NTJlMzdkYzk2IiwiaWF0IjoxNjg5MzI3NTY5fQ.FWq_z2su4SA6ooIcdwffjsucgivudHLU_pLRnxuK_RQ
+
+{
+    "newAdminEmail": "popadrian@web.de"
+}
+
+###
+
+POST http://localhost:1337/api/add-admin/confirm?userId=640606b7719c50752e37dc96
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRyaWFuIiwiZW1haWwiOiJhZHJpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjQwNjA2Yjc3MTljNTA3NTJlMzdkYzk2IiwiaWF0IjoxNjg5MzI3NTY5fQ.FWq_z2su4SA6ooIcdwffjsucgivudHLU_pLRnxuK_RQ
+
+{
+    "authCode": "D1C5E5",
+    "newAdminEmail": "pa@web.de"
+}
+
+###
+
+POST http://localhost:1337/add-admin/create
+Content-Type: application/json
+
+{
+    "name": "Pop Adrian",
+    "password": "Password#123",
+    "invitedBy": "63f4c2720e8a298d3c21be6c",
+    "token": "2146d4a9edeb6f13f94196e0d46390ac1fcbea2e91b3d17fbe1472b2fb56d433"
+}
+
+
+
 # ---------------------------------------------------------------
 ### ADMINS MANAGER
 # ---------------------------------------------------------------
@@ -186,7 +233,7 @@ Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuI
 
 ###
 
-DELETE http://localhost:1337/api/admins-manager/delete-admin/64afd566a1480fac57ccf75d?userId=63f4c2720e8a298d3c21be6c
+DELETE http://localhost:1337/api/admins-manager/delete-admin/64afb1b8a6089171b842b31c?userId=63f4c2720e8a298d3c21be6c
 Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
 

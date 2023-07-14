@@ -76,7 +76,7 @@ router.post('/email-update-request',
             } else if (existingEmail) {
                 return res.status(409).json({ success: false, error: 'This email address has already been taken' })
             } else {
-                const token = await EmailToken.findOne({ userId: user._id })
+                const token = await EmailToken.findOne({ userId: user._id, action: "userUpdateEmail" })
                 if (token) await token.deleteOne()
         
                 const emailToken = crypto.randomBytes(32).toString("hex")
@@ -86,6 +86,7 @@ router.post('/email-update-request',
                     userId: user._id,
                     token: hashedEmailToken,
                     newEmail: newEmail,
+                    action: "userUpdateEmail",
                     createdAt: Date.now()
                 })
 

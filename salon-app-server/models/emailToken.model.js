@@ -16,6 +16,12 @@ const EmailToken = new mongoose.Schema(
             required: true,
             unique: true
         },
+        action: {
+            type: String,
+            enum: [ 'userUpdateEmail', 'adminInviteEmail' ],
+            default: 'userUpdateEmail',
+            required: true,
+        },
         createdAt: {
             type: Date,
             default: Date.now,
