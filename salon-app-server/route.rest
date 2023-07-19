@@ -187,43 +187,6 @@ Content-Type: application/json
 
 
 # ---------------------------------------------------------------
-### ADD NEW ADMIN 
-# ---------------------------------------------------------------
-
-POST http://localhost:1337/api/add-admin/request?userId=640606b7719c50752e37dc96
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRyaWFuIiwiZW1haWwiOiJhZHJpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjQwNjA2Yjc3MTljNTA3NTJlMzdkYzk2IiwiaWF0IjoxNjg5MzI3NTY5fQ.FWq_z2su4SA6ooIcdwffjsucgivudHLU_pLRnxuK_RQ
-
-{
-    "newAdminEmail": "popadrian@web.de"
-}
-
-###
-
-POST http://localhost:1337/api/add-admin/confirm?userId=640606b7719c50752e37dc96
-Content-Type: application/json
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiQWRyaWFuIiwiZW1haWwiOiJhZHJpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjQwNjA2Yjc3MTljNTA3NTJlMzdkYzk2IiwiaWF0IjoxNjg5MzI3NTY5fQ.FWq_z2su4SA6ooIcdwffjsucgivudHLU_pLRnxuK_RQ
-
-{
-    "authCode": "D1C5E5",
-    "newAdminEmail": "pa@web.de"
-}
-
-###
-
-POST http://localhost:1337/add-admin/create
-Content-Type: application/json
-
-{
-    "name": "Pop Adrian",
-    "password": "Password#123",
-    "invitedBy": "63f4c2720e8a298d3c21be6c",
-    "token": "2146d4a9edeb6f13f94196e0d46390ac1fcbea2e91b3d17fbe1472b2fb56d433"
-}
-
-
-
-# ---------------------------------------------------------------
 ### ADMINS MANAGER
 # ---------------------------------------------------------------
 
@@ -238,25 +201,62 @@ Content-Type: application/json
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
 
 # ---------------------------------------------------------------
-### FRONT PAGE DESCRIPTION ** GET // UPDATE
+### HOMEPAGE ** GET // UPDATE
 # ---------------------------------------------------------------
 
-GET http://localhost:1337/api/description
-Authorization: Bearer xxx
+# PUBLIC
+GET http://localhost:1337/homepage
 
 ###
-
-POST http://localhost:1337/api/description
+#
+# PRIVATE
+PATCH http://localhost:1337/api/homepage?userId=63f4c2720e8a298d3c21be6c
 Content-Type: application/json
-Authorization: Bearer xxx
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
 
 {
-    "description": {
-        "title": "Beauty & hair",
-        "about": "Comes & first of all"
-    }
+    "title": "Beauty & hair[^]/g",
+    "aboutUs": "At salon...",
+    "latestCuts": ""
 }
 
 # ---------------------------------------------------------------
-### PERSONA ** GET // POST // UPDATE // DELETE
+### STYLISTS ** GET // POST // UPDATE // DELETE
 # ---------------------------------------------------------------
+
+# PUBLICS
+GET http://localhost:1337/stylists
+
+###
+
+GET http://localhost:1337/stylists/64b7e0da096a7afa654b61e8
+
+###
+
+# PRIVATES
+POST http://localhost:1337/api/stylists/create?userId=63f4c2720e8a298d3c21be6c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
+
+{
+    "name": "Jane Smithering",
+    "bio": "Jane is wonderful...",
+    "photo": "some photo...",
+    "portfolio": "some portfolio..."
+}
+
+###
+
+PATCH http://localhost:1337/api/stylists/update/64b7ef3aa3a72c9fe09b7e40?userId=63f4c2720e8a298d3c21be6c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ
+
+{
+    "name": "Jane Smithson"
+}
+
+###
+
+DELETE http://localhost:1337/api/stylists/delete/64b7f9744f6d609729260e99?userId=63f4c2720e8a298d3c21be6c
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJuYW1lIjoiTHVjaWFuIiwiZW1haWwiOiJsdWNpYW5Ad2ViLmRlIiwidXNlcklkIjoiNjNmNGMyNzIwZThhMjk4ZDNjMjFiZTZjIiwiaWF0IjoxNjg5MjQxMTY5fQ.WNBDqUO7nJ_dSgDkjgT5UMObJF8CO2j4CzaYf3r62QQ

@@ -24,8 +24,8 @@ router.delete('/delete-admin/:adminId',
     checkUser,
     async (req, res) => {
         try {
-            const userId = req.query.userId
-            const adminId = req.params.adminId
+            const { userId } = req.query
+            const { adminId } = req.params
 
             const connectedAdminList = await User.find({ _id: adminId, invitedBy: userId })
             const pendingAdminList = await EmailToken.find({ _id: adminId, userId: userId, action: "adminInviteEmail" })

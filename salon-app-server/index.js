@@ -10,24 +10,29 @@ app.use(cors())
 app.use(express.json())
 app.use('/api', jwt({ secret: config.jwtSecret,  algorithms: ['HS256'] }))
 
-//connect db
+// connect db
 mongoose.connect(config.databaseURL)
 const db = mongoose.connection
 db.on('error', (error) => console.log(error))
 db.once('open', () => console.log('Connected to Database'))
 
-//routes
+// public routes
 app.use('/users', require('./routes/users'))
 app.use('/auth-confirm', require('./routes/authConfirm'))
 app.use('/forgot-password', require('./routes/forgotPassword'))
-app.use('/api/description', require('./routes/description'))
-app.use('/api/update-credentials', require('./routes/updateCredentials'))
 app.use('/update-credentials/email-update-reset', require('./routes/emailUpdateReset'))
-app.use('/api/add-admin', require('./routes/addAdmin'))
 app.use('/add-admin/create', require('./routes/addAdminCreate'))
-app.use('/api/admins-manager', require('./routes/adminsManager'))
+app.use('/homepage', require('./routes/homepage/publicHomepage'))
+app.use('/stylists', require('./routes/stylists/publicStylists'))
 
-//error handling
+// private routes
+app.use('/api/update-credentials', require('./routes/updateCredentials'))
+app.use('/api/add-admin', require('./routes/addAdmin'))
+app.use('/api/admins-manager', require('./routes/adminsManager'))
+app.use('/api/homepage', require('./routes/homepage/homepage'))
+app.use('/api/stylists', require('./routes/stylists/stylists'))
+
+// error handling
 app.use((err, req, res, next) => {
     console.error(err)
     if (err.name === "UnauthorizedError") {
